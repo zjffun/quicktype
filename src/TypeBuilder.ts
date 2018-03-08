@@ -804,7 +804,7 @@ export class UnionAccumulator<TArray, TClass, TMap> implements UnionTypeProvider
 }
 
 export class TypeRefUnionAccumulator extends UnionAccumulator<TypeRef, TypeRef, TypeRef> {
-    private readonly _typesAdded: Set<Type> = Set();
+    private _typesAdded: Set<Type> = Set();
 
     // There is a method analogous to this in the IntersectionAccumulator.  It might
     // make sense to find a common interface.
@@ -812,6 +812,7 @@ export class TypeRefUnionAccumulator extends UnionAccumulator<TypeRef, TypeRef, 
         if (this._typesAdded.has(t)) {
             return emptyTypeAttributes;
         }
+        this._typesAdded = this._typesAdded.add(t);
 
         const attributes = t.getAttributes();
         let unionAttributes: TypeAttributes | undefined = undefined;
@@ -850,13 +851,13 @@ export class TypeRefUnionAccumulator extends UnionAccumulator<TypeRef, TypeRef, 
         );
         if (unionAttributes === undefined) return emptyTypeAttributes;
         return unionAttributes;
-    }    
+    }
 
     addTypes(types: Set<Type>): TypeAttributes {
         if (types.size === 1) {
             return this.addType(defined(types.first()));
         }
-    
+
         return makeTypeAttributesInferred(combineTypeAttributes(types.map(m => this.addType(m)).toArray()));
     }
 }
