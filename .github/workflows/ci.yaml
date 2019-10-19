@@ -7,13 +7,12 @@ on:
 
 jobs:
   build:
-    - uses: actions/checkout@v1
-      with:
-        fetch-depth: 1
-
-    - name: Build quicktype
-      runs-on: ubuntu-latest
-      steps:
-        - name: npm install
-          run: |
-            npm install --unsafe-perm
+    name: Build quicktype
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: npm install
+        run: |
+          npm install --unsafe-perm
