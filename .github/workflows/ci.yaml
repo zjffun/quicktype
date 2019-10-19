@@ -1,4 +1,4 @@
-name: Test quicktype
+name: Test
 
 # This workflow is triggered on pushes to the repository.
 on:
@@ -6,14 +6,19 @@ on:
     branches:
       - github-actions
 jobs:
-  build:
-    name: Build quicktype
-    runs-on: ubuntu-latest
+  test:
+    name: Test
+    container:
+      image: schani/quicktype
+      env:
+        CI: true
+      options: --cpus 1
     strategy:
       matrix:
         fixture:
           - golang
           - rust
+          - swift
     steps:
       - uses: actions/checkout@v1
         with:
@@ -28,3 +33,4 @@ jobs:
         run: npm test
         env:
           FIXTURE: ${{ matrix.fixture }}
+          CPUs: 1
