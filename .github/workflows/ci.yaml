@@ -9,17 +9,13 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-    container:
-      image: schani/quicktype
-      env:
-        CI: true
-      options: --cpus 1
     strategy:
       matrix:
         fixture:
           - golang
           - rust
           - swift
+          - ruby
     steps:
       - uses: actions/checkout@v1
         with:
