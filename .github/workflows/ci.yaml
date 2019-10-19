@@ -1,0 +1,19 @@
+name: Greet Everyone
+# This workflow is triggered on pushes to the repository.
+on:
+  push:
+    branches:
+      - github-actions
+
+jobs:
+  build:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - name: Build quicktype
+      runs-on: ubuntu-latest
+      steps:
+        - name: npm install
+          run: |
+            npm install --unsafe-perm
