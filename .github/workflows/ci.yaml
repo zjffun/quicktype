@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - github-actions
-
 jobs:
   build:
     name: Build quicktype
@@ -19,3 +18,7 @@ jobs:
       - name: npm install
         run: |
           npm install --unsafe-perm
+      - name: golang
+        run: npm test
+        env:
+          FIXTURE: golang
