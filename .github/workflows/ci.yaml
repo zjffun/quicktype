@@ -37,3 +37,15 @@ jobs:
           path: dist
       - name: Test
         run: FIXTURE=golang npm test
+  test-swift:
+    needs: build
+    runs-on: swift
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+      - run: npm install
+      - uses: actions/download-artifact@master
+        with:
+          name: dist
+          path: dist
+      - run: FIXTURE=swift npm test
