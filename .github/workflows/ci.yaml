@@ -5,29 +5,37 @@ on:
   push:
     branches:
       - github-actions
+
 jobs:
-  test:
-    name: Test
+  build:
+    name: Build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        fixture:
-          - golang
-          - rust
-          - swift
-          - ruby
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Install Dependencies
+        working-directory: functions
+        run: npm install
+      - name: Build
+        working-directory: functions
+        run: npm run build
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@master
         with:
-          fetch-depth: 1
-      - uses: actions/setup-node@v1
+          name: dist
+          path: dist
+  test-golang:
+    name: Test golang
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Install Dependencies
+        run: npm install
+      - name: Download Build
+        uses: actions/download-artifact@master
         with:
-          node-version: "10.x"
-      - name: npm install
-        run: |
-          npm install --unsafe-perm
-      - name: Test ${{ matrix.fixture }} fixture
-        run: npm test
-        env:
-          FIXTURE: ${{ matrix.fixture }}
-          CPUs: 1
+          name: dist
+      - name: Test
+        run: FIXTURE=golang npm test
