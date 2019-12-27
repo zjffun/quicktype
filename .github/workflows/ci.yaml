@@ -16,7 +16,6 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Build
-        working-directory: functions
         run: npm run build
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master
@@ -28,13 +27,13 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@master
-      - name: Install Dependencies
-        run: npm install
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+      - run: npm install
       - name: Download Build
         uses: actions/download-artifact@master
         with:
           name: dist
+          path: dist
       - name: Test
         run: FIXTURE=golang npm test
