@@ -55,7 +55,7 @@ jobs:
           FIXTURE=swift npm test
   test-objective-c:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@master
       - uses: actions/setup-node@master
