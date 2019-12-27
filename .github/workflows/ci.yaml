@@ -13,12 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - uses: actions/setup-node@master
-      - name: Install Dependencies
-        run: npm install
-      - name: Build
-        run: npm run build
-      - name: Archive Production Artifact
-        uses: actions/upload-artifact@master
+      - run: npm install
+      - run: npm run build
+      - uses: actions/upload-artifact@master
         with:
           name: dist
           path: dist
@@ -30,8 +27,7 @@ jobs:
       - uses: actions/checkout@master
       - uses: actions/setup-node@master
       - run: npm install
-      - name: Download Build
-        uses: actions/download-artifact@master
+      - uses: actions/download-artifact@master
         with:
           name: dist
           path: dist
@@ -39,11 +35,13 @@ jobs:
         run: FIXTURE=golang npm test
   test-swift:
     needs: build
-    runs-on: swift
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - uses: actions/setup-node@master
-      - run: npm install
+      - run: |
+          npm install
+          apt-get install swift
       - uses: actions/download-artifact@master
         with:
           name: dist
