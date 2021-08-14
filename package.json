@@ -13,7 +13,9 @@
     "start": "script/watch",
     "pkg": "script/make-pkgs.sh",
     "tslint": "tslint --project src/cli --exclude 'src/__tests__/**' --exclude 'src/quicktype-core/input/io/get-stream/**'",
-    "clean": "rm -rf dist node_modules *~"
+    "clean": "rm -rf dist node_modules *~",
+    "test1": "node ./dist/cli/index.js --lang typescript ./test/inputs/json5",
+    "test2": "node ./dist/cli/index.js --src-lang json5 --lang typescript ./test/inputs/json5/sample1.json5"
   },
   "dependencies": {
     "chalk": "^2.4.1",
